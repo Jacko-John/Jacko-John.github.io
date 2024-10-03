@@ -15,9 +15,10 @@
         <guid>http://localhost:1313/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/</guid>
         <description>&lt;img src="http://localhost:1313/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.jpg" alt="Featured image of post 如何使用Wsl安装Linux系统" /&gt;&lt;h2 id=&#34;启用基于linux的子系统功能&#34;&gt;启用基于Linux的子系统功能
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;在 Win11 中，使用任务栏的搜索功能，直接搜索
-“启用或关闭windows功能”
-然后单击进入这个窗口，启用 “适用于Linux的Windows子系统功能”&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在 Win11 中，使用任务栏的搜索功能，直接搜索“启用或关闭windows功能”&lt;/p&gt;
+&lt;p&gt;然后单击进入这个窗口，启用 “适用于Linux的Windows子系统功能”&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;img src=&#34;./image-20241003143249896.png&#34; alt=&#34;image-20241003143249896&#34; style=&#34;width:50%; height:auto;  margin-left: 25%&#34; /&gt;
 &lt;h2 id=&#34;安装-wsl-子系统&#34;&gt;安装 wsl 子系统
@@ -76,9 +77,9 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wsl -l -o
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;之后没有任何反应，卡住了，这一般是那堵无形的墙堵住了你的去路。
-解决方法就是尝试换一个网绕过去，或者装个梯子爬过去
-这里给个指引，在 &lt;a class=&#34;link&#34; href=&#34;https://www.bing.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;p&gt;之后没有任何反应，卡住了，这一般是那堵无形的墙堵住了你的去路。&lt;/p&gt;
+&lt;p&gt;解决方法就是尝试换一个网绕过去，或者装个梯子爬过去&lt;/p&gt;
+&lt;p&gt;这里给个指引，在 &lt;a class=&#34;link&#34; href=&#34;https://www.bing.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;www.bing.com&lt;/a&gt; 中搜索 Clash, 或许能找到你想要的&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -92,10 +93,10 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wsl --install -d Ubuntu-22.04
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;之后，下载并安装系统，结果安装失败
-在确定你已经启用 “适用于Linux的Windows子系统功能” 之后还出现这种情况，基本可以断定你之前安装过 VMWare 来使用虚拟机。
-大概率是你安装的老版 VMWare （&lt;strong&gt;或者安装时没有勾选使用专门驱动&lt;/strong&gt;）魔改了你的底层驱动导致的。
-这种情况比较特殊，你可以尝试&lt;strong&gt;使用windows更新修复问题&lt;/strong&gt;，&lt;strong&gt;实在不行只能重置电脑&lt;/strong&gt;了。—— &lt;em&gt;&lt;u&gt;新版的 VMWare已经修复了这个问题，所以使用新版的 VMWare 的用户无需担心安装新版 VMWare 会导致 wsl 不可用。&lt;/u&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;之后，下载并安装系统，结果安装失败&lt;/p&gt;
+&lt;p&gt;在确定你已经启用 “适用于Linux的Windows子系统功能” 之后还出现这种情况，基本可以断定你之前安装过 VMWare 来使用虚拟机。&lt;/p&gt;
+&lt;p&gt;大概率是你安装的老版 VMWare （&lt;strong&gt;或者安装时没有勾选使用专门驱动&lt;/strong&gt;）魔改了你的底层驱动导致的。&lt;/p&gt;
+&lt;p&gt;这种情况比较特殊，你可以尝试&lt;strong&gt;使用windows更新修复问题&lt;/strong&gt;，&lt;strong&gt;实在不行只能重置电脑&lt;/strong&gt;了。—— &lt;em&gt;&lt;u&gt;新版的 VMWare已经修复了这个问题，所以使用新版的 VMWare 的用户无需担心安装新版 VMWare 会导致 wsl 不可用。&lt;/u&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;img src=&#34;./image-20241003151251871.png&#34; alt=&#34;image-20241003151251871&#34; style=&#34;width:60%; height:auto; margin-left:20%;&#34; /&gt;
