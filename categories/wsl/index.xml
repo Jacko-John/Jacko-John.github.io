@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>wsl on Jacko John&#39;s Blog</title>
-        <link>https://Jacko-John.github.io/categories/wsl/</link>
+        <link>http://localhost:1313/categories/wsl/</link>
         <description>Recent content in wsl on Jacko John&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Jacko John</copyright>
-        <lastBuildDate>Tue, 01 Oct 2024 23:46:05 +0800</lastBuildDate><atom:link href="https://Jacko-John.github.io/categories/wsl/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 01 Oct 2024 23:46:05 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/wsl/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>如何使用Wsl安装Linux系统</title>
-        <link>https://Jacko-John.github.io/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/</link>
+        <link>http://localhost:1313/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/</link>
         <pubDate>Tue, 01 Oct 2024 23:46:05 +0800</pubDate>
         
-        <guid>https://Jacko-John.github.io/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/</guid>
-        <description>&lt;img src="https://Jacko-John.github.io/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.jpg" alt="Featured image of post 如何使用Wsl安装Linux系统" /&gt;&lt;h2 id=&#34;启用基于linux的子系统功能&#34;&gt;启用基于Linux的子系统功能
+        <guid>http://localhost:1313/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/</guid>
+        <description>&lt;img src="http://localhost:1313/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.jpg" alt="Featured image of post 如何使用Wsl安装Linux系统" /&gt;&lt;h2 id=&#34;启用基于linux的子系统功能&#34;&gt;启用基于Linux的子系统功能
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;在 Win11 中，使用任务栏的搜索功能，直接搜索&lt;/p&gt;

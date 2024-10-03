@@ -2,56 +2,35 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://Jacko-John.github.io/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2024-10-01T23:46:05+08:00</lastmod>
   </url><url>
-    <loc>https://Jacko-John.github.io/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
     <lastmod>2024-10-01T23:46:05+08:00</lastmod>
   </url><url>
-    <loc>https://Jacko-John.github.io/post/</loc>
+    <loc>http://localhost:1313/post/</loc>
     <lastmod>2024-10-01T23:46:05+08:00</lastmod>
   </url><url>
-    <loc>https://Jacko-John.github.io/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2024-10-01T23:46:05+08:00</lastmod>
   </url><url>
-    <loc>https://Jacko-John.github.io/categories/wsl/</loc>
+    <loc>http://localhost:1313/categories/wsl/</loc>
     <lastmod>2024-10-01T23:46:05+08:00</lastmod>
   </url><url>
-    <loc>https://Jacko-John.github.io/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</loc>
+    <loc>http://localhost:1313/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2024-10-01T23:46:05+08:00</lastmod>
   </url><url>
-    <loc>https://Jacko-John.github.io/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/</loc>
+    <loc>http://localhost:1313/blogs/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2024-10-01T23:46:05+08:00</lastmod>
   </url><url>
-    <loc>https://Jacko-John.github.io/blogs/wsl_1/</loc>
-    <lastmod>2024-10-01T23:45:47+08:00</lastmod>
-  </url><url>
-    <loc>https://Jacko-John.github.io/blogs/</loc>
+    <loc>http://localhost:1313/blogs/</loc>
     <lastmod>2024-09-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://Jacko-John.github.io/page/</loc>
+    <loc>http://localhost:1313/page/</loc>
     <lastmod>2024-09-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://Jacko-John.github.io/blogs/test-chinese/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/search/</loc>
   </url><url>
-    <loc>https://Jacko-John.github.io/categories/test/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://Jacko-John.github.io/blogs/markdown-syntax-guide/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://Jacko-John.github.io/blogs/placeholder-text/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://Jacko-John.github.io/categories/test-with-whitespaces/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://Jacko-John.github.io/blogs/emoji-support/</loc>
-    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://Jacko-John.github.io/search/</loc>
-  </url><url>
-    <loc>https://Jacko-John.github.io/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/</loc>
+    <loc>http://localhost:1313/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/</loc>
   </url>
 </urlset>
