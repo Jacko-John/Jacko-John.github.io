@@ -310,14 +310,11 @@
     
     <h2 id="启用基于linux的子系统功能">启用基于Linux的子系统功能
 </h2><ul>
-<li>
-<p>在 Win11 中，使用任务栏的搜索功能，直接搜索</p>
-<p>“启用或关闭windows功能”</p>
-<p>然后单击进入这个窗口</p>
-</li>
+<li>在 Win11 中，使用任务栏的搜索功能，直接搜索
+“启用或关闭windows功能”
+然后单击进入这个窗口，启用 “适用于Linux的Windows子系统功能”</li>
 </ul>
-<img src="./image-20241003143249896.png" alt="image-20241003143249896" style="zoom:50%;" />
-<p>​	启用 “适用于Linux的Windows子系统功能”</p>
+<img src="./image-20241003143249896.png" alt="image-20241003143249896" style="width:50%; height:auto;  margin-left: 25%" />
 <h2 id="安装-wsl-子系统">安装 wsl 子系统
 </h2><ul>
 <li>
@@ -333,7 +330,7 @@
 </div><p>更新 wsl</p>
 </li>
 <li>
-<p>然后启用 wsl2 &ndash; <em>现在默认都是 wsl2，但是还是手动启用一下保险，wsl2 的功能比 1 更完善也更加稳定</em></p>
+<p>然后启用 wsl2  ——  <em><u>现在默认都是 wsl2，但是还是手动启用一下保险，wsl2 的功能比 1 更完善也更加稳定</u></em></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -344,7 +341,7 @@
 </div>
 </div></li>
 <li>
-<p>查看可用的wsl系统版本，并安装ubuntu系统 &ndash; <em>我这里安装的是22.04版本，没特殊需求直接使用22.04版本就够了</em></p>
+<p>查看可用的wsl系统版本，并安装ubuntu系统 —— <em><u>我这里安装的是22.04版本，没特殊需求直接使用22.04版本就够了</u></em></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -355,11 +352,13 @@
 </span></span><span class="line"><span class="cl">wsl --install -d Ubuntu-22.04
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
+</div><p>一般情况下，这就安装好了，你可以通过在任何的目录下的 cmd 窗口输入 wsl 来进入你的子系统</p>
+</li>
 </ul>
-<p>​	一般情况下，这就安装好了，你可以通过在任何的目录下的 cmd 窗口输入 wsl 来进入你的子系统</p>
 <h2 id="意外情况">意外情况
-</h2><p>不出意外的话，这时候可能就出意外了</p>
+</h2><blockquote>
+<p>不出意外的话，这时候可能就出意外了</p>
+</blockquote>
 <ul>
 <li>
 <p><strong>意外一</strong></p>
@@ -372,13 +371,11 @@
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">wsl -l -o
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-<p>​	之后没有任何反应，卡住了，这一般是那堵无形的墙堵住了你的去路。</p>
-<p>​	解决方法就是尝试换一个网绕过去，或者装个梯子爬过去</p>
-<p>​	这里给个指引，在 <a class="link" href="https://www.bing.com"  target="_blank" rel="noopener"
+</div><p>之后没有任何反应，卡住了，这一般是那堵无形的墙堵住了你的去路。
+解决方法就是尝试换一个网绕过去，或者装个梯子爬过去
+这里给个指引，在 <a class="link" href="https://www.bing.com"  target="_blank" rel="noopener"
     >www.bing.com</a> 中搜索 Clash, 或许能找到你想要的</p>
-<ul>
+</li>
 <li>
 <p><strong>意外二</strong></p>
 <p>在输入</p>
@@ -390,17 +387,18 @@
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">wsl --install -d Ubuntu-22.04
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>之后，下载并安装系统，结果安装失败</p>
-<p>在确定你已经启用 “适用于Linux的Windows子系统功能” 之后还出现这种情况，基本可以断定你之前安装过 VMWare 来使用虚拟机。</p>
-<p>大概率是你安装的老版 VMWare （<strong>或者安装时没有勾选使用专门驱动</strong>）魔改了你的底层驱动导致的。</p>
-<p>这种情况比较特殊，你可以尝试<strong>使用windows更新修复问题</strong>，<strong>实在不行只能重置电脑</strong>了。&ndash; <em>新版的 VMWare已经修复了这个问题，所以使用新版的 VMWare 的用户无需担心安装新版 VMWare 会导致 wsl 不可用。</em></p>
+</div><p>之后，下载并安装系统，结果安装失败
+在确定你已经启用 “适用于Linux的Windows子系统功能” 之后还出现这种情况，基本可以断定你之前安装过 VMWare 来使用虚拟机。
+大概率是你安装的老版 VMWare （<strong>或者安装时没有勾选使用专门驱动</strong>）魔改了你的底层驱动导致的。
+这种情况比较特殊，你可以尝试<strong>使用windows更新修复问题</strong>，<strong>实在不行只能重置电脑</strong>了。—— <em><u>新版的 VMWare已经修复了这个问题，所以使用新版的 VMWare 的用户无需担心安装新版 VMWare 会导致 wsl 不可用。</u></em></p>
 </li>
 </ul>
-<img src="./image-20241003151251871.png" alt="image-20241003151251871" style="zoom:50%;" />
-<p>​	ps: 我当时就是因为 vm 导致的 wsl 不可用，最后是重置电脑才恢复的，由于我把数据、应用等都不放在C盘，所以重置之后数据都	还在，就是一些开发环境什么的要重新配置环境变量罢了。 &ndash; <strong>所以强烈建议所有数据都别放在C盘，桌面、下载、文档等文件夹都	迁移到其他盘</strong></p>
-<p>​</p>
+<img src="./image-20241003151251871.png" alt="image-20241003151251871" style="width:60%; height:auto; margin-left:20%;" />
+<blockquote>
+<p>ps: 我当时就是因为 vm 导致的 wsl 不可用，最后是重置电脑才恢复的，由于我把数据、应用等都不放在C盘，所以重置之后数据都还在，就是一些开发环境什么的要重新配置环境变量罢了。—— <strong>所以强烈建议所有数据都别放在C盘，桌面、下载、文档等文件夹都迁移到其他盘</strong></p>
+</blockquote>
 <h2 id="参考链接">参考链接：
-</h2><p><a class="link" href="https://zhuanlan.zhihu.com/p/682583573"  target="_blank" rel="noopener"
+</h2><p>​	<a class="link" href="https://zhuanlan.zhihu.com/p/682583573"  target="_blank" rel="noopener"
     >WSL入门到入土 - 知乎 (zhihu.com)</a></p>
 
 </section>
