@@ -7,13 +7,62 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Jacko John</copyright>
-        <lastBuildDate>Tue, 01 Oct 2024 23:46:05 +0800</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 30 Oct 2024 23:47:42 +0800</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>03 在VSCode中使用WSL进行开发</title>
+        <link>http://localhost:1313/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/</link>
+        <pubDate>Wed, 30 Oct 2024 23:47:42 +0800</pubDate>
+        
+        <guid>http://localhost:1313/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/</guid>
+        <description>&lt;img src="http://localhost:1313/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/OIP-C_x16_drawing.jpg" alt="Featured image of post 03 在VSCode中使用WSL进行开发" /&gt;&lt;h2 id=&#34;wsl-连接-vscode&#34;&gt;WSL 连接 Vscode
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;打开 vscode 点击左下角的蓝色标&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&#34;image-20241112210010815.png&#34; alt=&#34;image-20241112210010815&#34; style=&#34;width: 50%; margin-left=25%; &#34; /&gt;
+&lt;ul&gt;
+&lt;li&gt;选择&lt;code&gt;连接到WSL&lt;/code&gt;即可连接到默认的&lt;code&gt;WSL&lt;/code&gt;子系统，如果你有多个子系统，可以选择&lt;code&gt;使用发行版连接到WSL&lt;/code&gt;，然后选择你想要连接的子系统&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&#34;image-20241112210520515.png&#34; alt=&#34;image-20241112210520515&#34; style=&#34;width: 50%; margin-left=25%;&#34; /&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!TIP]&lt;/p&gt;
+&lt;p&gt;进入子系统之后你就可以像在本地一样使用 vscode 来操作子系统啦，你可以使用快捷键 &lt;code&gt;ctrl+`&lt;/code&gt;快速调出终端，然后就可以进行一些命令行操作啦&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;安装vscode插件&#34;&gt;安装vscode插件
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;由于使用vscode连接wsl的原理是在wsl里面开启一个vscode server，所以本机的插件是不会与wsl里面的插件共享的，你需要在插件页面安装对应的插件。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!TIP]&lt;/p&gt;
+&lt;p&gt;推荐两个好用的 vscode 插件&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Favorites Manager&lt;/strong&gt;：简单方便地文件夹收藏夹，将你常用文件夹添加到收藏夹，之后就可以通过它快速打开&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&#34;image-20241112212640738.png&#34; alt=&#34;image-20241112212640738&#34; style=&#34;width:50%; margin-left:25%;&#34; /&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Open Folder Context Menus for VS Code&lt;/strong&gt;：可以让你快速地打开文件夹中的子文件夹，配合Favorites Manager可以高效找寻并打开想要的文件夹路径&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&#34;image-20241112220450165.png&#34; alt=&#34;image-20241112220450165&#34; style=&#34;width:50%; margin-left:25%;&#34; /&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]&lt;/p&gt;
+&lt;p&gt;​	由于vscode扩展的服务器是在国外，所以安装插件会出现加载缓慢或者加载不出来的情况，为了良好的体验，建议使用魔法来加速&lt;/p&gt;
+&lt;p&gt;​	不单止vscode，目前jetbrains全家桶也支持连接wsl来进行项目开发，不过笔者不常用jetbrains系的ide，所以没有实际体验过，感兴趣的可以自行去体验一下&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
         <title>01 如何使用WSL安装Linux系统</title>
         <link>http://localhost:1313/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/</link>
         <pubDate>Tue, 01 Oct 2024 23:46:05 +0800</pubDate>
         
         <guid>http://localhost:1313/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/</guid>
-        <description>&lt;img src="http://localhost:1313/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.jpg" alt="Featured image of post 01 如何使用WSL安装Linux系统" /&gt;&lt;h2 id=&#34;启用基于linux的子系统功能&#34;&gt;启用基于Linux的子系统功能
+        <description>&lt;img src="http://localhost:1313/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.jpg" alt="Featured image of post 01 如何使用WSL安装Linux系统" /&gt;&lt;blockquote&gt;
+&lt;p&gt;​	随着我们学习的编程语言越来越多，使用的各种各样的工具也越来越多，我们的电脑上就需要配置越来越多的环境，且不论环境之间是否具有冲突，单从复杂的系统环境来看，都会让电脑变的臃肿，最终就会出现牵一发而动全身的情况（All in boom）。&lt;/p&gt;
+&lt;p&gt;​	然而，目前win平台对于此并没有过多的方案选择，基本只有&lt;code&gt;docker&lt;/code&gt;、&lt;code&gt;Windows沙盒&lt;/code&gt;、&lt;code&gt;传统VM&lt;/code&gt;以及 &lt;code&gt;WSL&lt;/code&gt; 三个选项来管理你的系统环境，让系统变得更加清爽。&lt;/p&gt;
+&lt;p&gt;​	&lt;code&gt;Windows沙盒&lt;/code&gt;只能在专业版中使用，鉴于大部分人都没有专业版，故并不推荐； &lt;code&gt;传统VM&lt;/code&gt;由于运行在应用层，在进行资源调度以及数据共享时极不方便，故不推荐；&lt;code&gt;docker&lt;/code&gt;，由于docker并没有win的原生版本，即使是windows版本也是基于wsl的，于是乎你就在装了一个wsl的前提下，又安装了个docker，在神级插件&lt;code&gt;Dev-Container&lt;/code&gt;辅助下，确实很不错，由于笔者没有尝试过，所以不做评价。&lt;/p&gt;
+&lt;p&gt;​	&lt;code&gt;WSL&lt;/code&gt;也是一种虚拟机，由于win的原生支持，其不仅能够与win进行极其方便的数据共享，还能够方便的与宇宙第一IDE &lt;code&gt;VScode&lt;/code&gt; 进行一触即连，优雅方便地开始你的代码开发，最重要的是，其能够完美地调用所有的计算资源而不需要手动调整，实在是管理系统环境的不二之选。&lt;/p&gt;
+&lt;p&gt;​	2024.11.12 笔者的笔记本坏了，需要重装系统，尽管重要数据能够通过硬盘、网盘来备份，但是一些系统环境要重新配置还是很费时间的。由于笔者已经投入了wsl怀抱，这时候只需要将所有的子系统导出，然后重要数据都放在同步盘里，就能够非常方便地重装系统然后恢复原来的环境了。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;启用基于linux的子系统功能&#34;&gt;启用基于Linux的子系统功能
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;在 Win10 or Win11 中，使用任务栏的搜索功能，搜索“启用或关闭windows功能”&lt;/p&gt;
@@ -53,11 +102,14 @@
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;WSL -l -o
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;WSL --install -d Ubuntu-22.04
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;WSL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;l&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;o&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;WSL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Ubuntu&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;22.04&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;web&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;download&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;接下来只需跟着引导创建用户然后，设置密码即可，之后你可以在CMD或者Power Shell输入WSL来进入子系统&lt;/p&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;这里请务必加上 &lt;code&gt;--web-download&lt;/code&gt; ，否则他会从MS Store下载，亲测奇慢无比&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接下来只需跟着引导创建用户然后，设置密码即可，之后你可以在CMD或者Power Shell输入WSL来进入子系统&lt;/p&gt;
 &lt;img src=&#34;./image-20241003194634798.png&#34; alt=&#34;image-20241003194634798&#34; style=&#34;width: 40%; margin-left: 30%&#34; /&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -81,8 +133,8 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;ps: 在 &lt;a class=&#34;link&#34; href=&#34;https://www.bing.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;www.bing.com&lt;/a&gt; 中搜索 Clash, 或许能找到你想要的&lt;/p&gt;
+&lt;p&gt;ps：经笔者尝试，目前国内是可以直接访问安装的，如果不行，配置一下DNS就好了&lt;/p&gt;
+&lt;p&gt;​	推荐：首选119.29.29.29  备用8.8.8.8&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -92,13 +144,13 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;WSL --install -d Ubuntu-22.04
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;WSL&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;install&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Ubuntu&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;22.04&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;web&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;download&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;安装系统失败，首先尝试根据官方文档中的操作一步一步来：&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/windows/wsl/install-manual&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;旧版 WSL 的手动安装步骤 | Microsoft Learn&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;如果仍然安装系统失败，你可以尝试&lt;strong&gt;使用windows更新修复问题&lt;/strong&gt;，然后重试上述步骤。&lt;/p&gt;
-&lt;p&gt;还有可能是因为bios未启用cpu虚拟化。 —— &lt;em&gt;&lt;u&gt;然而 Jacko 在使用VM时显示不支持cpu虚拟化，但却能够使用WSL&lt;/u&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;还有可能是因为bios未启用cpu虚拟化。 —— &lt;em&gt;&lt;u&gt;然而 笔者在使用VM时显示不支持cpu虚拟化，但却能够使用WSL&lt;/u&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;img src=&#34;./image-20241003151251871.png&#34; alt=&#34;image-20241003151251871&#34; style=&#34;width:60%; height:auto; margin-left:20%;&#34; /&gt;
 &lt;p&gt;此时依然不行的话，要么就是系统不支持，要么就是硬件不支持，可以尝试&lt;strong&gt;重装系统&lt;/strong&gt;或者&lt;strong&gt;更换电脑&lt;/strong&gt;解决&lt;/p&gt;
 &lt;/li&gt;
@@ -127,7 +179,7 @@
     &gt;WSL Toolbox&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;配置默认启动用户&#34;&gt;配置默认启动用户
+&lt;h2 id=&#34;配置默认启动用户-仅ubuntu其它发行版自行搜索&#34;&gt;配置默认启动用户 (仅Ubuntu，其它发行版自行搜索)
 &lt;/h2&gt;&lt;blockquote&gt;
 &lt;p&gt;不管使用 WSL 命令还是在 WSL Toolbox（以下简称 WT）中进入子系统，默认是使用root模式访问的，接下来我们要将默认访问用户改成安装系统时创建的那个。如果你享受root模式的裸奔快感，这一步可以跳过。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -198,6 +250,8 @@
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;导出的子系统文件千万不要删除，以备后续可以通过 import 方便地增加子系统或者重装子系统&lt;/p&gt;
+&lt;p&gt;如果你将wsl系统装在了外置存储设备，请不要在存储设备离开时打开WT，否则会导致WT崩溃，需要自行前往修复&lt;/p&gt;
+&lt;p&gt;具体操作： &lt;code&gt;设置&lt;/code&gt;  &amp;raquo;  &lt;code&gt;应用&lt;/code&gt;  &amp;raquo; &lt;code&gt;安装的应用&lt;/code&gt; &amp;raquo; 找到WT选择&lt;code&gt;高级选项&lt;/code&gt; &amp;raquo; &lt;code&gt;修复&lt;/code&gt; or &lt;code&gt;重置&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;参考链接&#34;&gt;参考链接
 &lt;/h2&gt;&lt;ul&gt;

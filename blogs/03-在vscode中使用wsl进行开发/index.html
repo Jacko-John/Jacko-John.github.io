@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="使用WSL搭建开发环境第一课">
-<title>01 如何使用WSL安装Linux系统</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="WSL 连接 Vscode 打开 vscode 点击左下角的蓝色标 选择连接到WSL即可连接到默认的WSL子系统，如果你有多个子系统，可以选择使用发行版连接到WSL，然后选择你想要连接的子系统 进入子系统之后你就可以像在本地一样使用 vscode 来操作子系统啦，你可以使用快捷键 ctrl+`快速调出终端，然后就可以进行一些命令行操作啦\n">
+<title>03 在VSCode中使用WSL进行开发</title>
 
-<link rel='canonical' href='http://localhost:1313/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/'>
+<link rel='canonical' href='http://localhost:1313/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/'>
 
-<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="01 如何使用WSL安装Linux系统">
-<meta property='og:description' content="使用WSL搭建开发环境第一课">
-<meta property='og:url' content='http://localhost:1313/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/'>
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="03 在VSCode中使用WSL进行开发">
+<meta property='og:description' content="WSL 连接 Vscode 打开 vscode 点击左下角的蓝色标 选择连接到WSL即可连接到默认的WSL子系统，如果你有多个子系统，可以选择使用发行版连接到WSL，然后选择你想要连接的子系统 进入子系统之后你就可以像在本地一样使用 vscode 来操作子系统啦，你可以使用快捷键 ctrl+`快速调出终端，然后就可以进行一些命令行操作啦\n">
+<meta property='og:url' content='http://localhost:1313/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/'>
 <meta property='og:site_name' content='Jacko John&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='安装教程' /><meta property='article:published_time' content='2024-10-01T23:46:05&#43;08:00'/><meta property='article:modified_time' content='2024-10-01T23:46:05&#43;08:00'/><meta property='og:image' content='http://localhost:1313/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.jpg' />
-<meta name="twitter:title" content="01 如何使用WSL安装Linux系统">
-<meta name="twitter:description" content="使用WSL搭建开发环境第一课"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='http://localhost:1313/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-10-30T23:47:42&#43;08:00'/><meta property='article:modified_time' content='2024-10-30T23:47:42&#43;08:00'/><meta property='og:image' content='http://localhost:1313/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/OIP-C_x16_drawing.jpg' />
+<meta name="twitter:title" content="03 在VSCode中使用WSL进行开发">
+<meta name="twitter:description" content="WSL 连接 Vscode 打开 vscode 点击左下角的蓝色标 选择连接到WSL即可连接到默认的WSL子系统，如果你有多个子系统，可以选择使用发行版连接到WSL，然后选择你想要连接的子系统 进入子系统之后你就可以像在本地一样使用 vscode 来操作子系统啦，你可以使用快捷键 ctrl+`快速调出终端，然后就可以进行一些命令行操作啦\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/OIP-C_x16_drawing.jpg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -223,10 +223,8 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#启用基于linux的子系统功能">启用基于Linux的子系统功能</a></li>
-    <li><a href="#安装-wsl-子系统">安装 WSL 子系统</a></li>
-    <li><a href="#意外情况">意外情况</a></li>
-    <li><a href="#参考链接">参考链接：</a></li>
+    <li><a href="#wsl-连接-vscode">WSL 连接 Vscode</a></li>
+    <li><a href="#安装vscode插件">安装vscode插件</a></li>
   </ol>
 </nav>
         </div>
@@ -241,13 +239,13 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/">
-                <img src="/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing_hu5059405638059919282.jpg"
-                        srcset="/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing_hu5059405638059919282.jpg 800w, /blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing_hu12835142299055872657.jpg 1600w"
+            <a href="/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/">
+                <img src="/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/OIP-C_x16_drawing_hu5059405638059919282.jpg"
+                        srcset="/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/OIP-C_x16_drawing_hu5059405638059919282.jpg 800w, /blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/OIP-C_x16_drawing_hu12835142299055872657.jpg 1600w"
                         width="800" 
                         height="474" 
                         loading="lazy"
-                        alt="Featured image of post 01 如何使用WSL安装Linux系统" />
+                        alt="Featured image of post 03 在VSCode中使用WSL进行开发" />
                 
             </a>
         </div>
@@ -266,13 +264,9 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/">01 如何使用WSL安装Linux系统</a>
+            <a href="/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/">03 在VSCode中使用WSL进行开发</a>
         </h2>
     
-        
-        <h3 class="article-subtitle">
-            使用WSL搭建开发环境第一课
-        </h3>
         
     </div>
 
@@ -292,7 +286,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Oct 01, 2024</time>
+                <time class="article-time--published">Oct 30, 2024</time>
             </div>
         
 
@@ -308,125 +302,41 @@
     <section class="article-content">
     
     
-    <blockquote>
-<p>​	随着我们学习的编程语言越来越多，使用的各种各样的工具也越来越多，我们的电脑上就需要配置越来越多的环境，且不论环境之间是否具有冲突，单从复杂的系统环境来看，都会让电脑变的臃肿，最终就会出现牵一发而动全身的情况（All in boom）。</p>
-<p>​	然而，目前win平台对于此并没有过多的方案选择，基本只有<code>docker</code>、<code>Windows沙盒</code>、<code>传统VM</code>以及 <code>WSL</code> 三个选项来管理你的系统环境，让系统变得更加清爽。</p>
-<p>​	<code>Windows沙盒</code>只能在专业版中使用，鉴于大部分人都没有专业版，故并不推荐； <code>传统VM</code>由于运行在应用层，在进行资源调度以及数据共享时极不方便，故不推荐；<code>docker</code>，由于docker并没有win的原生版本，即使是windows版本也是基于wsl的，于是乎你就在装了一个wsl的前提下，又安装了个docker，在神级插件<code>Dev-Container</code>辅助下，确实很不错，由于笔者没有尝试过，所以不做评价。</p>
-<p>​	<code>WSL</code>也是一种虚拟机，由于win的原生支持，其不仅能够与win进行极其方便的数据共享，还能够方便的与宇宙第一IDE <code>VScode</code> 进行一触即连，优雅方便地开始你的代码开发，最重要的是，其能够完美地调用所有的计算资源而不需要手动调整，实在是管理系统环境的不二之选。</p>
-<p>​	2024.11.12 笔者的笔记本坏了，需要重装系统，尽管重要数据能够通过硬盘、网盘来备份，但是一些系统环境要重新配置还是很费时间的。由于笔者已经投入了wsl怀抱，这时候只需要将所有的子系统导出，然后重要数据都放在同步盘里，就能够非常方便地重装系统然后恢复原来的环境了。</p>
-</blockquote>
-<h2 id="启用基于linux的子系统功能">启用基于Linux的子系统功能
+    <h2 id="wsl-连接-vscode">WSL 连接 Vscode
 </h2><ul>
-<li>
-<p>在 Win10 or Win11 中，使用任务栏的搜索功能，搜索“启用或关闭windows功能”</p>
-<p>单击进入下图窗口，启用 “适用于Linux的Windows子系统功能” 和 &ldquo;虚拟机平台&rdquo;</p>
-</li>
+<li>打开 vscode 点击左下角的蓝色标</li>
 </ul>
-<img src="./image-20241003143249896.png" alt="image-20241003143249896" style="width:50%; height:auto;  margin-left: 25%" />
-<h2 id="安装-wsl-子系统">安装 WSL 子系统
-</h2><ul>
-<li>
-<p>使用 cmd，输入以下命令更新 WSL</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">WSL --update
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>启用 WSL2  ——  <em><u>目前默认使用 WSL2，但建议手动启用一下更为保险，WSL2 的功能比 1 更完善也更加稳定</u></em></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">WSL --set-default-version 2
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>查看可用的WSL系统版本，并安装ubuntu系统 —— <em><u>这里安装的是22.04版本，没特殊需求使用22.04版本就够了</u></em></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">WSL</span> <span class="o">-</span><span class="n">l</span> <span class="o">-</span><span class="n">o</span>
-</span></span><span class="line"><span class="cl"><span class="n">WSL</span> <span class="o">--</span><span class="n">install</span> <span class="n">Ubuntu</span><span class="o">-</span><span class="mf">22.04</span> <span class="o">--</span><span class="n">web</span><span class="o">-</span><span class="n">download</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><blockquote>
-<p>这里请务必加上 <code>--web-download</code> ，否则他会从MS Store下载，亲测奇慢无比</p>
-</blockquote>
-<p>接下来只需跟着引导创建用户然后，设置密码即可，之后你可以在CMD或者Power Shell输入WSL来进入子系统</p>
-<img src="./image-20241003194634798.png" alt="image-20241003194634798" style="width: 40%; margin-left: 30%" />
-</li>
-</ul>
-<h2 id="意外情况">意外情况
-</h2><blockquote>
-<p>不出意外的话，这时候可能就出意外了</p>
-</blockquote>
+<img src="image-20241112210010815.png" alt="image-20241112210010815" style="width:50%; margin-left:25%; " />
 <ul>
-<li>
-<p><strong>意外一</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">WSL -l -o
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>如果没有反应，这一般是那堵无形的墙堵住了你的去路。</p>
-<p><strong>解决方法: 尝试换一个网绕过去，或者装个梯子爬过去</strong></p>
-</li>
+<li>选择<code>连接到WSL</code>即可连接到默认的<code>WSL</code>子系统，如果你有多个子系统，可以选择<code>使用发行版连接到WSL</code>，然后选择你想要连接的子系统</li>
 </ul>
+<img src="image-20241112210520515.png" alt="image-20241112210520515" style="width: 50%; margin-left:25%;" />
 <blockquote>
-<p>ps：经笔者尝试，目前国内是可以直接访问安装的，如果不行，配置一下DNS就好了</p>
-<p>​	推荐：首选119.29.29.29  备用8.8.8.8</p>
+<p><strong>进入子系统之后你就可以像在本地一样使用 vscode 来操作子系统啦，你可以使用快捷键 <code>ctrl+`</code>快速调出终端，然后就可以进行一些命令行操作啦</strong></p>
 </blockquote>
+<h2 id="安装vscode插件">安装vscode插件
+</h2><blockquote>
+<p>由于使用vscode连接wsl的原理是在wsl里面开启一个vscode server，所以本机的插件是不会与wsl里面的插件共享的，你需要在插件页面安装对应的插件。</p>
+</blockquote>
+<p><strong>推荐两个好用的 vscode 插件</strong></p>
 <ul>
-<li>
-<p><strong>意外二</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">WSL</span> <span class="o">--</span><span class="n">install</span> <span class="n">Ubuntu</span><span class="o">-</span><span class="mf">22.04</span> <span class="o">--</span><span class="n">web</span><span class="o">-</span><span class="n">download</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>安装系统失败，首先尝试根据官方文档中的操作一步一步来：<a class="link" href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual"  target="_blank" rel="noopener"
-    >旧版 WSL 的手动安装步骤 | Microsoft Learn</a></p>
-<p>如果仍然安装系统失败，你可以尝试<strong>使用windows更新修复问题</strong>，然后重试上述步骤。</p>
-<p>还有可能是因为bios未启用cpu虚拟化。 —— <em><u>然而 笔者在使用VM时显示不支持cpu虚拟化，但却能够使用WSL</u></em></p>
-<img src="./image-20241003151251871.png" alt="image-20241003151251871" style="width:60%; height:auto; margin-left:20%;" />
-<p>此时依然不行的话，要么就是系统不支持，要么就是硬件不支持，可以尝试<strong>重装系统</strong>或者<strong>更换电脑</strong>解决</p>
-</li>
+<li><strong>Favorites Manager</strong>：简单方便地文件夹收藏夹，将你常用文件夹添加到收藏夹，之后就可以通过它快速打开</li>
 </ul>
-<h2 id="参考链接">参考链接：
-</h2><ul>
-<li><a class="link" href="https://zhuanlan.zhihu.com/p/682583573"  target="_blank" rel="noopener"
-    >WSL入门到入土 - 知乎 (zhihu.com)</a></li>
-<li><a class="link" href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual"  target="_blank" rel="noopener"
-    >旧版 WSL 的手动安装步骤 | Microsoft Learn</a></li>
+<img src="image-20241112212640738.png" alt="image-20241112212640738" style="width:50%; margin-left:25%;" />
+<ul>
+<li><strong>Open Folder Context Menus for VS Code</strong>：可以让你快速地打开文件夹中的子文件夹，配合Favorites Manager可以高效找寻并打开想要的文件夹路径</li>
 </ul>
+<img src="image-20241112220450165.png" alt="image-20241112220450165" style="width:50%; margin-left:25%;" />
+<blockquote>
+<p>​	由于vscode扩展的服务器是在国外，所以安装插件会出现加载缓慢或者加载不出来的情况，为了良好的体验，建议使用魔法来加速</p>
+<p>​	不单止vscode，目前jetbrains全家桶也支持连接wsl来进行项目开发，不过笔者不常用jetbrains系的ide，所以没有实际体验过，感兴趣的可以自行去体验一下</p>
+</blockquote>
 
 </section>
 
 
     <footer class="article-footer">
     
-    <section class="article-tags">
-        
-            <a href="/tags/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">安装教程</a>
-        
-    </section>
-
 
     </footer>
 
@@ -469,35 +379,11 @@
             
                 
 <article class="has-image">
-    <a href="/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/">
-        
-        
-            <div class="article-image">
-                <img src="/blogs/03-%E5%9C%A8vscode%E4%B8%AD%E4%BD%BF%E7%94%A8wsl%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/OIP-C_x16_drawing.1968351c82bded0c201f379218806770_hu4460514338258734306.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 03 在VSCode中使用WSL进行开发"
-                        
-                        data-hash="md5-GWg1HIK97QwgHzeSGIBncA==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">03 在VSCode中使用WSL进行开发</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
     <a href="/blogs/02-%E4%BD%BF%E7%94%A8wsl-toolbox%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84linux%E5%AD%90%E7%B3%BB%E7%BB%9F/">
         
         
             <div class="article-image">
-                <img src="/blogs/02-%E4%BD%BF%E7%94%A8wsl-toolbox%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84linux%E5%AD%90%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.1968351c82bded0c201f379218806770_hu4460514338258734306.jpg" 
+                <img src="/blogs/02-%E4%BD%BF%E7%94%A8wsl-toolbox%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84linux%E5%AD%90%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.1968351c82bded0c201f379218806770.1968351c82bded0c201f379218806770_hu4460514338258734306.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -510,6 +396,30 @@
 
         <div class="article-details">
             <h2 class="article-title">02 使用WSL ToolBox管理你的Linux子系统</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/">
+        
+        
+            <div class="article-image">
+                <img src="/blogs/01-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8wsl%E5%AE%89%E8%A3%85linux%E7%B3%BB%E7%BB%9F/OIP-C_x16_drawing.1968351c82bded0c201f379218806770_hu4460514338258734306.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 01 如何使用WSL安装Linux系统"
+                        
+                        data-hash="md5-GWg1HIK97QwgHzeSGIBncA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">01 如何使用WSL安装Linux系统</h2>
         </div>
     </a>
 </article>

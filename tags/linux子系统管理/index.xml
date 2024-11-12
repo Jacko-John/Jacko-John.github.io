@@ -22,7 +22,7 @@
     &gt;WSL Toolbox&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;配置默认启动用户&#34;&gt;配置默认启动用户
+&lt;h2 id=&#34;配置默认启动用户-仅ubuntu其它发行版自行搜索&#34;&gt;配置默认启动用户 (仅Ubuntu，其它发行版自行搜索)
 &lt;/h2&gt;&lt;blockquote&gt;
 &lt;p&gt;不管使用 WSL 命令还是在 WSL Toolbox（以下简称 WT）中进入子系统，默认是使用root模式访问的，接下来我们要将默认访问用户改成安装系统时创建的那个。如果你享受root模式的裸奔快感，这一步可以跳过。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -93,6 +93,8 @@
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;导出的子系统文件千万不要删除，以备后续可以通过 import 方便地增加子系统或者重装子系统&lt;/p&gt;
+&lt;p&gt;如果你将wsl系统装在了外置存储设备，请不要在存储设备离开时打开WT，否则会导致WT崩溃，需要自行前往修复&lt;/p&gt;
+&lt;p&gt;具体操作： &lt;code&gt;设置&lt;/code&gt;  &amp;raquo;  &lt;code&gt;应用&lt;/code&gt;  &amp;raquo; &lt;code&gt;安装的应用&lt;/code&gt; &amp;raquo; 找到WT选择&lt;code&gt;高级选项&lt;/code&gt; &amp;raquo; &lt;code&gt;修复&lt;/code&gt; or &lt;code&gt;重置&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;参考链接&#34;&gt;参考链接
 &lt;/h2&gt;&lt;ul&gt;
