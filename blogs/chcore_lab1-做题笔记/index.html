@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="简介 文档链接：Lab1: 机器启动 - IPADS OS Course Lab Manual\n本实验作为 ChCore 操作系统课程实验的第一个实验，分为三个部分。\nRTFSC: 代码导读，由于是Lab1，我们主要注重于Chcore的构建系统，这部分没有习题。 机器启动：介绍aarch64结构启动时的关键寄存器以及关键的启动函数。 页表配置：介绍aarch64页表结构，以及针对树莓派3平台的内存布局编写页表配置。 调试指北\n">
+<title>Chcore_lab1 做题笔记</title>
+
+<link rel='canonical' href='http://localhost:1313/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Chcore_lab1 做题笔记">
+<meta property='og:description' content="简介 文档链接：Lab1: 机器启动 - IPADS OS Course Lab Manual\n本实验作为 ChCore 操作系统课程实验的第一个实验，分为三个部分。\nRTFSC: 代码导读，由于是Lab1，我们主要注重于Chcore的构建系统，这部分没有习题。 机器启动：介绍aarch64结构启动时的关键寄存器以及关键的启动函数。 页表配置：介绍aarch64页表结构，以及针对树莓派3平台的内存布局编写页表配置。 调试指北\n">
+<meta property='og:url' content='http://localhost:1313/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/'>
+<meta property='og:site_name' content='Jacko John&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-11-17T16:26:44&#43;08:00'/><meta property='article:modified_time' content='2024-11-17T16:26:44&#43;08:00'/>
+<meta name="twitter:title" content="Chcore_lab1 做题笔记">
+<meta name="twitter:description" content="简介 文档链接：Lab1: 机器启动 - IPADS OS Course Lab Manual\n本实验作为 ChCore 操作系统课程实验的第一个实验，分为三个部分。\nRTFSC: 代码导读，由于是Lab1，我们主要注重于Chcore的构建系统，这部分没有习题。 机器启动：介绍aarch64结构启动时的关键寄存器以及关键的启动函数。 页表配置：介绍aarch64页表结构，以及针对树莓派3平台的内存布局编写页表配置。 调试指北\n">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu10569844772362567299.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">♾️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jacko John&#39;s Blog</a></h1>
+            <h2 class="site-description">Welcome to my blog! I write about programming, tech, and other stuff.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Jacko-John'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg t="1727712067746" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6130" width="256" height="256"><path d="M512 0c-282.76736 0-512 229.23264-512 512s229.23264 512 512 512 512-229.23264 512-512-229.23264-512-512-512zM816.04608 816.04608c-39.5264 39.50592-85.504 70.53312-136.704 92.18048-13.0048 5.50912-26.2144 10.32192-39.60832 14.49984l0-76.73856c0-40.32512-13.824-70.00064-41.49248-89.00608 17.32608-1.65888 33.25952-3.9936 47.75936-7.00416s29.83936-7.33184 45.99808-13.0048 30.65856-12.41088 43.49952-20.25472 25.16992-18.00192 37.00736-30.49472 21.74976-26.66496 29.75744-42.496 14.336-34.83648 19.00544-56.99584 7.00416-46.592 7.00416-73.25696c0-51.67104-16.83456-95.66208-50.50368-131.9936 15.33952-39.99744 13.66016-83.49696-4.99712-130.49856l-12.4928-1.49504c-8.66304-1.00352-24.24832 2.6624-46.75584 10.99776s-47.75936 21.99552-75.75552 41.00096c-39.66976-10.99776-80.83456-16.50688-123.4944-16.50688-43.008 0-84.00896 5.50912-123.00288 16.50688-17.67424-12.00128-34.4064-21.9136-50.25792-29.75744s-28.50816-13.16864-37.9904-15.99488-18.3296-4.58752-26.50112-5.24288-13.4144-0.83968-15.74912-0.49152-3.9936 0.67584-4.99712 1.00352c-18.65728 47.32928-20.33664 90.8288-4.99712 130.49856-33.66912 36.33152-50.50368 80.34304-50.50368 131.9936 0 26.66496 2.33472 51.07712 7.00416 73.25696s10.99776 41.1648 19.00544 56.99584 17.92 30.0032 29.75744 42.496 24.1664 22.67136 37.00736 30.49472 27.3408 14.58176 43.49952 20.25472 31.49824 9.99424 45.99808 13.0048 30.4128 5.3248 47.75936 7.00416c-27.3408 18.65728-41.00096 48.3328-41.00096 89.00608l0 78.2336c-15.09376-4.48512-29.98272-9.80992-44.60544-15.99488-51.2-21.64736-97.19808-52.67456-136.704-92.18048s-70.53312-85.504-92.18048-136.704c-22.40512-52.96128-33.75104-109.2608-33.75104-167.34208s11.3664-114.3808 33.75104-167.34208c21.64736-51.2 52.67456-97.19808 92.18048-136.704s85.504-70.53312 136.704-92.18048c52.96128-22.40512 109.2608-33.75104 167.34208-33.75104s114.3808 11.3664 167.34208 33.75104c51.2 21.64736 97.19808 52.67456 136.704 92.18048s70.53312 85.504 92.18048 136.704c22.40512 52.96128 33.75104 109.2608 33.75104 167.34208s-11.3664 114.3808-33.75104 167.34208c-21.64736 51.2-52.67456 97.19808-92.18048 136.704z" fill="#515151" p-id="6131"></path></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blogs/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Blogs</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#思考题-1">思考题 1</a></li>
+    <li><a href="#练习2">练习2</a></li>
+    <li><a href="#练习题-3">练习题 3</a></li>
+    <li><a href="#思考题-4">思考题 4</a></li>
+    <li><a href="#思考题-5">思考题 5</a></li>
+    <li><a href="#练习题6">练习题6</a></li>
+    <li><a href="#练习题7">练习题7</a></li>
+    <li><a href="#思考题-8">思考题 8</a></li>
+    <li><a href="#思考题-9">思考题 9</a></li>
+    <li><a href="#练习题-10">练习题 10</a></li>
+    <li><a href="#思考题11">思考题11</a></li>
+    <li><a href="#思考题12">思考题12</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/chcore/" >
+                ChCore
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/">Chcore_lab1 做题笔记</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Nov 17, 2024</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="简介">简介
+</h2><p>文档链接：<a class="link" href="https://sjtu-ipads.github.io/OS-Course-Lab/Lab1.html"  target="_blank" rel="noopener"
+    >Lab1: 机器启动 - IPADS OS Course Lab Manual</a></p>
+<p>本实验作为 ChCore 操作系统课程实验的第一个实验，分为三个部分。</p>
+<ol>
+<li><a class="link" href="https://sjtu-ipads.github.io/OS-Course-Lab/Lab1/RTFSC.html"  target="_blank" rel="noopener"
+    >RTFSC</a>: 代码导读，由于是Lab1，我们主要注重于Chcore的构建系统，这部分没有习题。</li>
+<li><a class="link" href="https://sjtu-ipads.github.io/OS-Course-Lab/Lab1/boot.html"  target="_blank" rel="noopener"
+    >机器启动</a>：介绍aarch64结构启动时的关键寄存器以及关键的启动函数。</li>
+<li><a class="link" href="https://sjtu-ipads.github.io/OS-Course-Lab/Lab1/pte.html"  target="_blank" rel="noopener"
+    >页表配置</a>：介绍aarch64页表结构，以及针对树莓派3平台的内存布局编写页表配置。</li>
+</ol>
+<blockquote>
+<p>调试指北</p>
+<p>在开始实验之前，请务必读完<a class="link" href="https://sjtu-ipads.github.io/OS-Course-Lab/Appendix/kernel-debugging.html"  target="_blank" rel="noopener"
+    >调试指北</a>，以帮助你快速上手调试。</p>
+</blockquote>
+<h2 id="思考题-1">思考题 1
+</h2><p><strong>阅读 <code>_start</code> 函数的开头，尝试说明 ChCore 是如何让其中一个核首先进入初始化流程，并让其他核暂停执行的。</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	# the begin of _start
+</span></span><span class="line"><span class="cl">	mrs	x8, mpidr_el1
+</span></span><span class="line"><span class="cl">	and	x8, x8,	#0xFF
+</span></span><span class="line"><span class="cl">	cbz	x8, primary
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>从中我们可以知道，在函数的开头会从<code>mpidr_el1</code>寄存器中读取cpu的编号，当cpu的编号为0时（即当前核心是主核心时）就会跳转到<code>primary</code>进行初始化</p>
+</blockquote>
+<h2 id="练习2">练习2
+</h2><p><strong>在 <code>arm64_elX_to_el1</code> 函数的 <code>LAB 1 TODO 1</code> 处填写一行汇编代码，获取 CPU 当前异常级别。</strong></p>
+<blockquote>
+<p><code>arm64_elX_to_el1</code>，顾名思义，从特权级<code>elX</code>降级到<code>el1</code>，其中<code>X</code>代表任意特权级</p>
+</blockquote>
+<p>根据ChCore文档中的提示，我们可以从<code>CurrentEL</code>寄存器中获取当前的特权级，又根据Arm文档中的介绍：</p>
+<p><img src="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114171711129.png"
+	width="2130"
+	height="1238"
+	srcset="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114171711129_hu1379852858070981892.png 480w, /blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114171711129_hu8591155848814620497.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="172"
+		data-flex-basis="412px"
+	
+></p>
+<p>我们可以很简单的知道，应该把<code>CurrentEL</code>中的值获取到<code>x9</code>寄存器里，即</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	# the begin of arm64_elX_to_el1
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 1 BEGIN */
+</span></span><span class="line"><span class="cl">	/* BLANK BEGIN */
+</span></span><span class="line"><span class="cl">	mrs x9, CurrentEL
+</span></span><span class="line"><span class="cl">	/* BLANK END */
+</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 1 END */
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	// Check the current exception level.
+</span></span><span class="line"><span class="cl">	cmp x9, CURRENTEL_EL1
+</span></span><span class="line"><span class="cl">	beq .Ltarget
+</span></span><span class="line"><span class="cl">	cmp x9, CURRENTEL_EL2
+</span></span><span class="line"><span class="cl">	beq .Lin_el2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="练习题-3">练习题 3
+</h2><p><code>eret</code>指令可用于从高异常级别跳到更低的异常级别，在执行它之前我们需要设置 设置 <code>elr_elx</code>（异常链接寄存器）和 <code>spsr_elx</code>（保存的程序状态寄存器），分别控制<code>eret</code>执行后的指令地址（PC）和程序状态（包括异常返回后的异常级别）。</p>
+<p><strong>在 <code>arm64_elX_to_el1</code> 函数的 <code>LAB 1 TODO 2</code> 处填写大约 4 行汇编代码，设置从 EL3 跳转到 EL1 所需的 <code>elr_el3</code> 和 <code>spsr_el3</code> 寄存器值。</strong></p>
+<blockquote>
+<p><code>elr_el3</code> 的正确设置应使得控制流在 <code>eret</code> 后从 <code>arm64_elX_to_el1</code> 返回到 <code>_start</code> 继续执行初始化。 <code>spsr_el3</code> 的正确设置应正确屏蔽 DAIF 四类中断，并且将 <a class="link" href="https://developer.arm.com/documentation/ddi0500/j/CHDDGJID"  target="_blank" rel="noopener"
+    >SP</a> 正确设置为 <code>EL1h</code>. 在设置好这两个系统寄存器后，不需要立即 <code>eret</code>.</p>
+</blockquote>
+<ol>
+<li>
+<p><code>elr_el3</code>，参考el1时的操作，从el3返回el1时同样应该回到<code>.Ltarget</code>处来返回</p>
+<p>可以通过指令<code>adr</code>，获取标签的地址并存入寄存器中</p>
+<p><img src="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114173337143.png"
+	width="2100"
+	height="394"
+	srcset="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114173337143_hu15567915631688060689.png 480w, /blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114173337143_hu16884443327088050851.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="532"
+		data-flex-basis="1279px"
+	
+></p>
+</li>
+</ol>
+<p><img src="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114173357011.png"
+	width="2092"
+	height="244"
+	srcset="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114173357011_hu11324673672032910867.png 480w, /blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114173357011_hu12931787337817245273.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="857"
+		data-flex-basis="2057px"
+	
+></p>
+<ol start="2">
+<li>
+<p><code>spsr_el3</code>，根据下图</p>
+<p><img src="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114174336537.png"
+	width="1474"
+	height="516"
+	srcset="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114174336537_hu12861430297239058070.png 480w, /blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114174336537_hu18101571591984909076.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="285"
+		data-flex-basis="685px"
+	
+></p>
+<p>并且结合arm文档中的解释：Inject Undefined Instruction exception. Set to 0 on taking an exception to EL3, and copied to PSTATE.UINJ on executing an exception return operation in EL3.（注入未定义的指令异常。将异常带入 EL3 时设置为 0，在 EL3 中执行异常返回操作时复制到 PSTATE.UINJ。）</p>
+<p>==DAIF四类中断的位数是 [9:6]，而M[3:0]指定返回特权级的sp指针==</p>
+<p><img src="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114175232949.png"
+	width="2110"
+	height="744"
+	srcset="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114175232949_hu14482858081418890696.png 480w, /blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114175232949_hu13413557056349443919.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="283"
+		data-flex-basis="680px"
+	
+></p>
+<p>由于lab1贴心的定义好了相应的变量，我们直接使用变量就好了</p>
+</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	# Set the return address and exception level.
+</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 2 BEGIN */
+</span></span><span class="line"><span class="cl">	/* BLANK BEGIN */
+</span></span><span class="line"><span class="cl">	adr x9, .Ltarget
+</span></span><span class="line"><span class="cl">	msr elr_el3, x9
+</span></span><span class="line"><span class="cl">	mov x9, SPSR_ELX_DAIF | SPSR_ELX_EL1H
+</span></span><span class="line"><span class="cl">	msr spsr_el3, x9
+</span></span><span class="line"><span class="cl">	/* BLANK END */
+</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 2 END */
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="思考题-4">思考题 4
+</h2><p><strong>说明为什么要在进入 C 函数之前设置启动栈。如果不设置，会发生什么？</strong></p>
+<blockquote>
+<p>因为调用函数需要使用到栈来保存状态，如果不启用栈，会导致函数调用失败</p>
+</blockquote>
+<h2 id="思考题-5">思考题 5
+</h2><p><strong>在实验 1 中，其实不调用 <code>clear_bss</code> 也不影响内核的执行，请思考不清理 <code>.bss</code> 段在之后的何种情况下会导致内核无法工作</strong></p>
+<blockquote>
+<p>当内核中的某个函数依赖全局变量的初始值为0时，不清理<code>.bss</code>可能会导致出现无法预料的异常</p>
+</blockquote>
+<h2 id="练习题6">练习题6
+</h2><p><strong>在 <code>kernel/arch/aarch64/boot/raspi3/peripherals/uart.c</code> 中 <code>LAB 1 TODO 3</code> 处实现通过 UART 输出字符串的逻辑。</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">uart_send_string</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* LAB 1 TODO 3 BEGIN */</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* BLANK BEGIN */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="nf">early_uart_send</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* BLANK END */</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* LAB 1 TODO 3 END */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="练习题7">练习题7
+</h2><p><strong>在 <code>kernel/arch/aarch64/boot/raspi3/init/tools.S</code> 中 <code>LAB 1 TODO 4</code> 处填写一行汇编代码，以启用 MMU。</strong></p>
+<p>我们可以在<code>kernel/include/arch/aarch64/arch/machine/registers.h</code>中找到相应的变量定义</p>
+<p><img src="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114182639904.png"
+	width="1732"
+	height="336"
+	srcset="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114182639904_hu7391985393234840797.png 480w, /blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/assets/image-20241114182639904_hu12942474199263444975.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="515"
+		data-flex-basis="1237px"
+	
+></p>
+<p>很容易知道应该答案：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	mrs     x8, sctlr_el1
+</span></span><span class="line"><span class="cl">	/* Enable MMU */
+</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 4 BEGIN */
+</span></span><span class="line"><span class="cl">	/* BLANK BEGIN */
+</span></span><span class="line"><span class="cl">	orr		x8, x8, #SCTLR_EL1_M
+</span></span><span class="line"><span class="cl">	/* BLANK END */
+</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 4 END */
+</span></span><span class="line"><span class="cl">	/* Disable alignment checking */
+</span></span><span class="line"><span class="cl">	bic     x8, x8, #SCTLR_EL1_A
+</span></span><span class="line"><span class="cl">	bic     x8, x8, #SCTLR_EL1_SA0
+</span></span><span class="line"><span class="cl">	bic     x8, x8, #SCTLR_EL1_SA
+</span></span><span class="line"><span class="cl">	orr     x8, x8, #SCTLR_EL1_nAA
+</span></span><span class="line"><span class="cl">	/* Data accesses Cacheable */
+</span></span><span class="line"><span class="cl">	orr     x8, x8, #SCTLR_EL1_C
+</span></span><span class="line"><span class="cl">	/* Instruction access Cacheable */
+</span></span><span class="line"><span class="cl">	orr     x8, x8, #SCTLR_EL1_I
+</span></span><span class="line"><span class="cl">	msr     sctlr_el1, x8
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>这里关闭了对齐检查，启用了指令和数据缓存</p>
+<p>变量SCTLR_EL1_M表示启动MMU</p>
+</blockquote>
+<h2 id="思考题-8">思考题 8
+</h2><p><strong>请思考多级页表相比单级页表带来的优势和劣势（如果有的话），并计算在 AArch64 页表中分别以 4KB 粒度和 2MB 粒度映射 0～4GB 地址范围所需的物理内存大小（或页表页数量）。</strong></p>
+<blockquote>
+<p>多级页表优势是不需要一次性地将所有空间都映射，尽管在映射大空间时占用内存多，但一般场景下需要映射地空间都很小，减少了内存的浪费。劣势是翻译需要多次访问内存，性能较差。</p>
+<p>4KB粒度需要1024*1024个条目，则需要2048个3级页表，其中这2048个3级页表又需要4个2级页表项，总共需要2048+3个页表（考虑L0~L2）。</p>
+<p>2MB粒度下需要2048个条目，需要4个2级页表，总共需要4+2个页表（考虑L0~L1）。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong><code>init_kernel_pt</code> 为内核配置从 <code>0x00000000</code> 到 <code>0x80000000</code>（<code>0x40000000</code> 后的 1G，ChCore 只需使用这部分地址中的本地外设）的映射，其中 <code>0x00000000</code> 到 <code>0x3f000000</code> 映射为 normal memory，<code>0x3f000000</code> 到 <code>0x80000000</code>映射为 device memory，其中 <code>0x00000000</code> 到 <code>0x40000000</code> 以 2MB 块粒度映射，<code>0x40000000</code> 到 <code>0x80000000</code> 以 1GB 块粒度映射。</strong></p>
+</blockquote>
+<h2 id="思考题-9">思考题 9
+</h2><p><strong>请结合上述地址翻译规则，计算在练习题 10 中，你需要映射几个 L2 页表条目，几个 L1 页表条目，几个 L0 页表条目。页表页需要占用多少物理内存？</strong></p>
+<blockquote>
+<p>0x0000_0000到0x4000_0000总共1024G，以2MB为粒度，需要524288个L2条目，1024个L1条目，2个L0条目</p>
+<p>0x4000_0000到0x8000_0000总共1024G，以1G为粒度，需要1024个L1条目，需要2个L0条目</p>
+<p>总共1028*4KB内存（不考虑L0）</p>
+</blockquote>
+<h2 id="练习题-10">练习题 10
+</h2><p><strong>在 <code>init_kernel_pt</code> 函数的 <code>LAB 1 TODO 5</code> 处配置内核高地址页表（<code>boot_ttbr1_l0</code>、<code>boot_ttbr1_l1</code> 和 <code>boot_ttbr1_l2</code>），以 2MB 粒度映射。</strong></p>
+<p>这里低位和高位的映射都是一样的，我们可以直接copy低位的配置来直接修改</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* TTBR1_EL1 0-1G */</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* LAB 1 TODO 5 BEGIN */</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* Step 1: set L0 and L1 page table entry */</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* BLANK BEGIN */</span>
+</span></span><span class="line"><span class="cl"><span class="n">vaddr</span> <span class="o">=</span> <span class="n">KERNEL_VADDR</span> <span class="o">+</span> <span class="n">PHYSMEM_START</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">boot_ttbr1_l0</span><span class="p">[</span><span class="nf">GET_L0_INDEX</span><span class="p">(</span><span class="n">vaddr</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">u64</span><span class="p">)</span><span class="n">boot_ttbr1_l1</span><span class="p">)</span> <span class="o">|</span> <span class="n">IS_TABLE</span>
+</span></span><span class="line"><span class="cl">                                     	<span class="o">|</span> <span class="n">IS_VALID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">boot_ttbr1_l1</span><span class="p">[</span><span class="nf">GET_L1_INDEX</span><span class="p">(</span><span class="n">vaddr</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">u64</span><span class="p">)</span><span class="n">boot_ttbr1_l2</span><span class="p">)</span> <span class="o">|</span> <span class="n">IS_TABLE</span>
+</span></span><span class="line"><span class="cl">                                     	<span class="o">|</span> <span class="n">IS_VALID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* BLANK END */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* Step 2: map PHYSMEM_START ~ PERIPHERAL_BASE with 2MB granularity */</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* BLANK BEGIN */</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(;</span> <span class="n">vaddr</span> <span class="o">&lt;</span> <span class="n">KERNEL_VADDR</span> <span class="o">+</span> <span class="n">PERIPHERAL_BASE</span><span class="p">;</span> <span class="n">vaddr</span> <span class="o">+=</span> <span class="n">SIZE_2M</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">boot_ttbr1_l2</span><span class="p">[</span><span class="nf">GET_L2_INDEX</span><span class="p">(</span><span class="n">vaddr</span><span class="p">)]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">		<span class="p">(</span><span class="n">vaddr</span> <span class="o">-</span> <span class="n">KERNEL_VADDR</span><span class="p">)</span> <span class="o">|</span> <span class="n">UXN</span> <span class="cm">/* Unprivileged execute never */</span>
+</span></span><span class="line"><span class="cl">			<span class="o">|</span> <span class="n">ACCESSED</span> <span class="cm">/* Set access flag */</span>
+</span></span><span class="line"><span class="cl">			<span class="o">|</span> <span class="n">INNER_SHARABLE</span> <span class="cm">/* Sharebility */</span>
+</span></span><span class="line"><span class="cl">			<span class="o">|</span> <span class="n">NORMAL_MEMORY</span> <span class="cm">/* Normal memory */</span>
+</span></span><span class="line"><span class="cl">			<span class="o">|</span> <span class="n">IS_VALID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* BLANK END */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* Step 2: map PERIPHERAL_BASE ~ PHYSMEM_END with 2MB granularity */</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* BLANK BEGIN */</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">vaddr</span> <span class="o">=</span> <span class="n">KERNEL_VADDR</span> <span class="o">+</span> <span class="n">PERIPHERAL_BASE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">vaddr</span> <span class="o">&lt;</span> <span class="n">KERNEL_VADDR</span> <span class="o">+</span> <span class="n">PHYSMEM_END</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">vaddr</span> <span class="o">+=</span> <span class="n">SIZE_2M</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">boot_ttbr1_l2</span><span class="p">[</span><span class="nf">GET_L2_INDEX</span><span class="p">(</span><span class="n">vaddr</span><span class="p">)]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">		<span class="p">(</span><span class="n">vaddr</span> <span class="o">-</span> <span class="n">KERNEL_VADDR</span><span class="p">)</span> <span class="cm">/* low mem, va = pa */</span>
+</span></span><span class="line"><span class="cl">			<span class="o">|</span> <span class="n">UXN</span> <span class="cm">/* Unprivileged execute never */</span>
+</span></span><span class="line"><span class="cl">			<span class="o">|</span> <span class="n">ACCESSED</span> <span class="cm">/* Set access flag */</span>
+</span></span><span class="line"><span class="cl">			<span class="o">|</span> <span class="n">DEVICE_MEMORY</span> <span class="cm">/* Device memory */</span>
+</span></span><span class="line"><span class="cl">			<span class="o">|</span> <span class="n">IS_VALID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* BLANK END */</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* LAB 1 TODO 5 END */</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将<code>boot_ttbr0_lx</code>改成<code>boot_ttbr1_lx</code></li>
+<li><code>vaddr = KERNEL_VADDR + 物理地址</code> 在进行映射时记得把 <code>vaddr - KERNEL_VADDR</code></li>
+<li>高地址只有内核执行，不需要通过ASID来区分，所以把所有的<code>NG</code>删掉</li>
+</ul>
+<h2 id="思考题11">思考题11
+</h2><p><strong>请思考在 <code>init_kernel_pt</code> 函数中为什么还要为低地址配置页表，并尝试验证自己的解释。</strong></p>
+<blockquote>
+<p>由于启动mmu之后的指令仍然在低地址中执行，如果不为低地址配置页表的话，就会翻译出错而trap在小于0x8000的地址段。直到运行到<code>start_kernel</code>函数时才会进入高地址运行</p>
+</blockquote>
+<h2 id="思考题12">思考题12
+</h2><p><strong>在一开始我们暂停了三个其他核心的执行，根据现有代码简要说明它们什么时候会恢复执行。思考为什么一开始只让 0 号核心执行初始化流程？</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">init_c</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Clear the bss area for the kernel image */</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">clear_bss</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Initialize UART before enabling MMU. */</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">early_uart_init</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">uart_send_string</span><span class="p">(</span><span class="s">&#34;boot: init_c</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">wakeup_other_cores</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Initialize Kernell Page Table. */</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">uart_send_string</span><span class="p">(</span><span class="s">&#34;[BOOT] Install kernel page table</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">init_kernel_pt</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Enable MMU. */</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">el1_mmu_activate</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">uart_send_string</span><span class="p">(</span><span class="s">&#34;[BOOT] Enable el1 MMU</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Call Kernel Main. */</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">uart_send_string</span><span class="p">(</span><span class="s">&#34;[BOOT] Jump to kernel main</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">start_kernel</span><span class="p">(</span><span class="n">secondary_boot_flag</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Never reach here */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>根据<code>init_c</code>函数我们知道在初始化完串口之后，其它的核心就会被唤醒。使用一个核心有利于简化初始化过程，在串行的初始化中我们也容易知道出错的位置，从而更好地找到问题所在。并且在启动过程中，一些操作通常需要按特定顺序执行，包括时钟、调度器、锁等，使用单个核心可以更容易地控制这一过程。</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/blogs/chcore_lab0-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ChCore_lab0 做题笔记</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo=""
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Jacko John
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
