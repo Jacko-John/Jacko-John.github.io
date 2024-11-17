@@ -2,16 +2,16 @@
 <html lang="zh-cn" dir="ltr">
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="简介 文档链接：Lab1: 机器启动 - IPADS OS Course Lab Manual\n本实验作为 ChCore 操作系统课程实验的第一个实验，分为三个部分。\nRTFSC: 代码导读，由于是Lab1，我们主要注重于Chcore的构建系统，这部分没有习题。 机器启动：介绍aarch64结构启动时的关键寄存器以及关键的启动函数。 页表配置：介绍aarch64页表结构，以及针对树莓派3平台的内存布局编写页表配置。 调试指北\n">
-<title>Chcore_lab1 做题笔记</title>
+<title>ChCore_lab1 做题笔记</title>
 
 <link rel='canonical' href='http://localhost:1313/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/'>
 
-<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Chcore_lab1 做题笔记">
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="ChCore_lab1 做题笔记">
 <meta property='og:description' content="简介 文档链接：Lab1: 机器启动 - IPADS OS Course Lab Manual\n本实验作为 ChCore 操作系统课程实验的第一个实验，分为三个部分。\nRTFSC: 代码导读，由于是Lab1，我们主要注重于Chcore的构建系统，这部分没有习题。 机器启动：介绍aarch64结构启动时的关键寄存器以及关键的启动函数。 页表配置：介绍aarch64页表结构，以及针对树莓派3平台的内存布局编写页表配置。 调试指北\n">
 <meta property='og:url' content='http://localhost:1313/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/'>
 <meta property='og:site_name' content='Jacko John&#39;s Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-11-17T16:26:44&#43;08:00'/><meta property='article:modified_time' content='2024-11-17T16:26:44&#43;08:00'/>
-<meta name="twitter:title" content="Chcore_lab1 做题笔记">
+<meta name="twitter:title" content="ChCore_lab1 做题笔记">
 <meta name="twitter:description" content="简介 文档链接：Lab1: 机器启动 - IPADS OS Course Lab Manual\n本实验作为 ChCore 操作系统课程实验的第一个实验，分为三个部分。\nRTFSC: 代码导读，由于是Lab1，我们主要注重于Chcore的构建系统，这部分没有习题。 机器启动：介绍aarch64结构启动时的关键寄存器以及关键的启动函数。 页表配置：介绍aarch64页表结构，以及针对树莓派3平台的内存布局编写页表配置。 调试指北\n">
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -253,7 +253,7 @@
     
     <header class="article-category">
         
-            <a href="/categories/chcore/" >
+            <a href="/categories/chcore/" style="background-color: #2a9d8f; color: #fff;">
                 ChCore
             </a>
         
@@ -262,7 +262,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/">Chcore_lab1 做题笔记</a>
+            <a href="/blogs/chcore_lab1-%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/">ChCore_lab1 做题笔记</a>
         </h2>
     
         
@@ -327,10 +327,10 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	# the begin of _start
-</span></span><span class="line"><span class="cl">	mrs	x8, mpidr_el1
-</span></span><span class="line"><span class="cl">	and	x8, x8,	#0xFF
-</span></span><span class="line"><span class="cl">	cbz	x8, primary
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">	<span class="cp"># the begin of _start
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="n">mrs</span>	<span class="n">x8</span><span class="p">,</span> <span class="n">mpidr_el1</span>
+</span></span><span class="line"><span class="cl">	<span class="n">and</span>	<span class="n">x8</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span>	<span class="err">#</span><span class="mh">0xFF</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cbz</span>	<span class="n">x8</span><span class="p">,</span> <span class="n">primary</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
@@ -372,19 +372,19 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	# the begin of arm64_elX_to_el1
-</span></span><span class="line"><span class="cl">	
-</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 1 BEGIN */
-</span></span><span class="line"><span class="cl">	/* BLANK BEGIN */
-</span></span><span class="line"><span class="cl">	mrs x9, CurrentEL
-</span></span><span class="line"><span class="cl">	/* BLANK END */
-</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 1 END */
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">	<span class="cp"># the begin of arm64_elX_to_el1
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	
+</span></span><span class="line"><span class="cl">	<span class="cm">/* LAB 1 TODO 1 BEGIN */</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* BLANK BEGIN */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">mrs</span> <span class="n">x9</span><span class="p">,</span> <span class="n">CurrentEL</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* BLANK END */</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* LAB 1 TODO 1 END */</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">	// Check the current exception level.
-</span></span><span class="line"><span class="cl">	cmp x9, CURRENTEL_EL1
-</span></span><span class="line"><span class="cl">	beq .Ltarget
-</span></span><span class="line"><span class="cl">	cmp x9, CURRENTEL_EL2
-</span></span><span class="line"><span class="cl">	beq .Lin_el2
+</span></span><span class="line"><span class="cl">	<span class="c1">// Check the current exception level.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">cmp</span> <span class="n">x9</span><span class="p">,</span> <span class="n">CURRENTEL_EL1</span>
+</span></span><span class="line"><span class="cl">	<span class="n">beq</span> <span class="p">.</span><span class="n">Ltarget</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cmp</span> <span class="n">x9</span><span class="p">,</span> <span class="n">CURRENTEL_EL2</span>
+</span></span><span class="line"><span class="cl">	<span class="n">beq</span> <span class="p">.</span><span class="n">Lin_el2</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="练习题-3">练习题 3
@@ -469,15 +469,15 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	# Set the return address and exception level.
-</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 2 BEGIN */
-</span></span><span class="line"><span class="cl">	/* BLANK BEGIN */
-</span></span><span class="line"><span class="cl">	adr x9, .Ltarget
-</span></span><span class="line"><span class="cl">	msr elr_el3, x9
-</span></span><span class="line"><span class="cl">	mov x9, SPSR_ELX_DAIF | SPSR_ELX_EL1H
-</span></span><span class="line"><span class="cl">	msr spsr_el3, x9
-</span></span><span class="line"><span class="cl">	/* BLANK END */
-</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 2 END */
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">	<span class="cp"># Set the return address and exception level.
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="cm">/* LAB 1 TODO 2 BEGIN */</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* BLANK BEGIN */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">adr</span> <span class="n">x9</span><span class="p">,</span> <span class="p">.</span><span class="n">Ltarget</span>
+</span></span><span class="line"><span class="cl">	<span class="n">msr</span> <span class="n">elr_el3</span><span class="p">,</span> <span class="n">x9</span>
+</span></span><span class="line"><span class="cl">	<span class="n">mov</span> <span class="n">x9</span><span class="p">,</span> <span class="n">SPSR_ELX_DAIF</span> <span class="o">|</span> <span class="n">SPSR_ELX_EL1H</span>
+</span></span><span class="line"><span class="cl">	<span class="n">msr</span> <span class="n">spsr_el3</span><span class="p">,</span> <span class="n">x9</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* BLANK END */</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* LAB 1 TODO 2 END */</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="思考题-4">思考题 4
@@ -553,23 +553,23 @@
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	mrs     x8, sctlr_el1
-</span></span><span class="line"><span class="cl">	/* Enable MMU */
-</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 4 BEGIN */
-</span></span><span class="line"><span class="cl">	/* BLANK BEGIN */
-</span></span><span class="line"><span class="cl">	orr		x8, x8, #SCTLR_EL1_M
-</span></span><span class="line"><span class="cl">	/* BLANK END */
-</span></span><span class="line"><span class="cl">	/* LAB 1 TODO 4 END */
-</span></span><span class="line"><span class="cl">	/* Disable alignment checking */
-</span></span><span class="line"><span class="cl">	bic     x8, x8, #SCTLR_EL1_A
-</span></span><span class="line"><span class="cl">	bic     x8, x8, #SCTLR_EL1_SA0
-</span></span><span class="line"><span class="cl">	bic     x8, x8, #SCTLR_EL1_SA
-</span></span><span class="line"><span class="cl">	orr     x8, x8, #SCTLR_EL1_nAA
-</span></span><span class="line"><span class="cl">	/* Data accesses Cacheable */
-</span></span><span class="line"><span class="cl">	orr     x8, x8, #SCTLR_EL1_C
-</span></span><span class="line"><span class="cl">	/* Instruction access Cacheable */
-</span></span><span class="line"><span class="cl">	orr     x8, x8, #SCTLR_EL1_I
-</span></span><span class="line"><span class="cl">	msr     sctlr_el1, x8
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">	<span class="n">mrs</span>     <span class="n">x8</span><span class="p">,</span> <span class="n">sctlr_el1</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Enable MMU */</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* LAB 1 TODO 4 BEGIN */</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* BLANK BEGIN */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">orr</span>		<span class="n">x8</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="err">#</span><span class="n">SCTLR_EL1_M</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* BLANK END */</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* LAB 1 TODO 4 END */</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Disable alignment checking */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">bic</span>     <span class="n">x8</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="err">#</span><span class="n">SCTLR_EL1_A</span>
+</span></span><span class="line"><span class="cl">	<span class="n">bic</span>     <span class="n">x8</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="err">#</span><span class="n">SCTLR_EL1_SA0</span>
+</span></span><span class="line"><span class="cl">	<span class="n">bic</span>     <span class="n">x8</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="err">#</span><span class="n">SCTLR_EL1_SA</span>
+</span></span><span class="line"><span class="cl">	<span class="n">orr</span>     <span class="n">x8</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="err">#</span><span class="n">SCTLR_EL1_nAA</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Data accesses Cacheable */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">orr</span>     <span class="n">x8</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="err">#</span><span class="n">SCTLR_EL1_C</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/* Instruction access Cacheable */</span>
+</span></span><span class="line"><span class="cl">	<span class="n">orr</span>     <span class="n">x8</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="err">#</span><span class="n">SCTLR_EL1_I</span>
+</span></span><span class="line"><span class="cl">	<span class="n">msr</span>     <span class="n">sctlr_el1</span><span class="p">,</span> <span class="n">x8</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
